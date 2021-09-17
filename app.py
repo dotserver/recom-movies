@@ -38,7 +38,7 @@ def main():
     </div>
     """
     st.markdown(html_temp,unsafe_allow_html=True)
-    title = st.text_input("Title","Input title here")
+    title = st.selectbox("Title",(df_movies.title.tolist()))
     result=""
     if st.button("Search"):
         result=prediction_model(title)
