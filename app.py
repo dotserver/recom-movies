@@ -1,32 +1,15 @@
 import pickle
 import streamlit as st
 import pandas as pd
-import requests
 
 # Load the dataset
 df = pd.read_csv('netflix_titles.csv')
 df_movies = df[df['type'] == 'Movie'].reset_index()
 movies = pd.Series(df_movies.index, index=df_movies['title'])
 
-
-# URL to download the classifier.pkl file from Google Drive
-download_url = "https://drive.google.com/uc?id=1wQIAWfHsZLtlybocZP61rUZWY-rNOE-H"
-
-# Function to download the file
-def download_file(url, destination):
-    response = requests.get(url)
-    with open(destination, 'wb') as file:
-        file.write(response.content)
-
-# Download the classifier.pkl file
-download_file(download_url, 'classifier.pkl')
-
 # Load the trained model
-try:
-    with open('classifier.pkl', 'rb') as pickle_in:
-        classifier = pickle.load(pickle_in)
-except FileNotFoundError:
-    st.error("The classifier.pkl file was not found. Make sure it is in the correct directory.")
+with open('classifier.pkl', 'rb') as pickle_in:
+    classifier = pickle.load(pickle_in)
 
 def prediction_model(title):
     try:
